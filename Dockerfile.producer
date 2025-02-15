@@ -1,0 +1,12 @@
+#using a python image (slim)
+FROM python:3.8-slim
+#setting the working directory
+WORKDIR /app
+#copying the python file into the container
+COPY producer.py /app/producer.py
+#Installing flask to serve the API
+RUN pip install flask
+#telling it on which port to listen
+EXPOSE 5000
+#running the flask when container starts
+CMD ["python", "producer.py"]

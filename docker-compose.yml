@@ -1,0 +1,37 @@
+
+#build the producer container using Dockerfile.produce
+
+version: '3'
+
+services:
+  producer:
+    build:
+      context: .
+      dockerfile: Dockerfile.producer
+    ports:
+      - "5000:5000"
+#Specify the custom Docker network 
+    networks:
+      - app-network
+    dns:
+      - 8.8.8.8
+#Tells Docker Compose to build the consumer container using Dockerfile.consumer
+  consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile.consumer
+    depends_on:
+      - producer
+    volumes:
+      - data-volume:/data
+    networks:
+      - app-network
+
+# Maps the shared Docker volume (data-volume) 
+#to the /data directory inside the consumer container
+volumes:
+  data-volume:
+
+networks:
+  app-network:
+    driver: bridge

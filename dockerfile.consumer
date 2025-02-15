@@ -1,0 +1,14 @@
+#Using an Alpine Linux image
+FROM alpine:latest
+
+#Installing curl for HTTP requests
+RUN apk --no-cache add curl
+
+# Setting the working directory
+WORKDIR /app
+
+#Copying the shell script
+COPY consumer.sh /app/consumer.sh
+RUN chmod +x /app/consumer.sh
+VOLUME /data
+CMD ["/app/consumer.sh"]
